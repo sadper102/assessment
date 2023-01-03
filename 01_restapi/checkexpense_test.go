@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -41,6 +42,36 @@ func TestCreateCustomer(t *testing.T) {
 	assert.Equal(t, []string{"food", "beverage"}, exp.Tags)
 }
 
+func TestGetCustomerByID(t *testing.T) {
+	e := seedExpense(t)
+
+	var lastExp expense
+	res := request(http.MethodGet, uri("expenses", strconv.Itoa(e.ID)), nil)
+	err := res.Decode(&lastExp)
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.Equal(t, e.ID, lastExp.ID)
+	assert.NotEmpty(t, lastExp.Title)
+	assert.NotEmpty(t, lastExp.NOTE)
+	assert.NotEmpty(t, lastExp.Tags)
+	assert.NotEmpty(t, lastExp.Amount)
+}
+
+func seedExpense(t *testing.T) expense {
+	var c expense
+	body := bytes.NewBufferString(`{
+		"title": "strawberry smoothie",
+		"amount": 79,
+		"note": "night market promotion discount 10 bath", 
+		"tags": ["food", "beverage"]
+	}`)
+	err := request(http.MethodPost, uri("expenses"), body).Decode(&c)
+	if err != nil {
+		t.Fatal("can't create customer:", err)
+	}
+	return c
+}
 func uri(paths ...string) string {
 	host := "http://localhost:2565"
 	if paths == nil {
