@@ -1,4 +1,4 @@
-package customer
+package expenses
 
 import (
 	"database/sql"
@@ -29,16 +29,17 @@ func init() {
 		log.Fatal("can't connect to database", err)
 	}
 	db = conn
-	createCustomerTable()
+	createExpenseTable()
 }
 
-func createCustomerTable() {
+func createExpenseTable() {
 	createCustomerTable := `
-	CREATE TABLE IF NOT EXISTS customers (
+	CREATE TABLE IF NOT EXISTS expenses (
 		id SERIAL PRIMARY KEY,
-		name TEXT,
-		email TEXT,
-		status TEXT
+		title TEXT,
+		amount FLOAT,
+		note TEXT,
+		tags TEXT[]
 	);
 	`
 

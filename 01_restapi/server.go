@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/AnuchitO/restapi/customer"
+	"github.com/Nattapon/assessment/customer"
 	"github.com/labstack/echo/v4"
 )
 
