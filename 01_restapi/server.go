@@ -41,7 +41,7 @@ func setupRoute() *echo.Echo {
 func main() {
 	r := setupRoute()
 	go func() {
-		if err := r.Start(":2565"); err != nil && err != http.ErrServerClosed { // Start server
+		if err := r.Start(os.Getenv("PORT")); err != nil && err != http.ErrServerClosed { // Start server
 			r.Logger.Fatal("shutting down the server")
 		}
 	}()
