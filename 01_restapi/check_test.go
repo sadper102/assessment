@@ -1,3 +1,6 @@
+//go:build old
+// +build old
+
 package main
 
 import (

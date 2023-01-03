@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Nattapon/assessment/customer"
+	"github.com/Nattapon/assessment/expenses"
 	"github.com/labstack/echo/v4"
 )
 
@@ -28,12 +28,7 @@ func setupRoute() *echo.Echo {
 			return next(c)
 		}
 	})
-
-	e.POST("/customers", customer.CreateHandler)
-	e.GET("/customers/:id", customer.GetCustomerByIdHandler)
-	e.GET("/customers", customer.GetCustomersHandler)
-	e.PUT("/customers/:id", customer.UpdateCustomerHandler)
-	e.DELETE("/customers/:id", customer.DeleteCustomerHandler)
+	e.POST("/expenses", expenses.CreateHandler)
 
 	return e
 }
