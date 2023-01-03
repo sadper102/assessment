@@ -1,4 +1,4 @@
-module github.com/Nattapon/assessment
+module github.com/sadper102/assessment
 
 go 1.19
 
