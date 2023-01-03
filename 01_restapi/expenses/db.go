@@ -2,8 +2,8 @@ package expenses
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 	_ "github.com/proullon/ramsql/driver"
@@ -11,20 +11,20 @@ import (
 
 var db *sql.DB
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "P@ssw0rd"
-	dbname   = "golang"
-)
+// const (
+// 	host     = "host.docker.internal"
+// 	port     = 5432
+// 	user     = "postgres"
+// 	password = "P@ssw0rd"
+// 	dbname   = "golang"
+// )
 
 func init() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-	conn, err := sql.Open("postgres", psqlInfo)
-	// conn, err := sql.Open(os.Getenv("DATABASE_DRIVER"), os.Getenv("DATABASE_URL"))
+	// psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	// 	"password=%s dbname=%s sslmode=disable",
+	// 	host, port, user, password, dbname)
+	// conn, err := sql.Open("postgres", psqlInfo)
+	conn, err := sql.Open(os.Getenv("DATABASE_DRIVER"), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal("can't connect to database", err)
 	}
