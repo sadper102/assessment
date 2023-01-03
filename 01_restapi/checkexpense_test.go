@@ -57,6 +57,27 @@ func TestGetCustomerByID(t *testing.T) {
 	assert.NotEmpty(t, lastExp.Tags)
 	assert.NotEmpty(t, lastExp.Amount)
 }
+func TestUpdateExpense(t *testing.T) {
+	id := seedExpense(t).ID
+	e := expense{
+		ID:     id,
+		Title:  "strawberry smoothie",
+		Amount: 79,
+		NOTE:   "night market promotion discount 10 bath",
+		Tags:   []string{"food", "beverage"},
+	}
+	payload, _ := json.Marshal(e)
+	res := request(http.MethodPut, uri("expenses", strconv.Itoa(id)), bytes.NewBuffer(payload))
+	var info expense
+	err := res.Decode(&info)
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.Equal(t, e.Title, info.Title)
+	assert.Equal(t, e.Amount, info.Amount)
+	assert.Equal(t, e.NOTE, info.NOTE)
+	assert.Equal(t, e.Tags, info.Tags)
+}
 
 func seedExpense(t *testing.T) expense {
 	var c expense
