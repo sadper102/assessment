@@ -30,7 +30,7 @@ func setupRoute() *echo.Echo {
 	})
 	e.POST("/expenses", expenses.CreateHandler)
 	e.GET("/expenses/:id", expenses.GetexpensesByIdHandler)
-
+	e.GET("/expenses", expenses.GetExpenseHandler)
 	return e
 }
 

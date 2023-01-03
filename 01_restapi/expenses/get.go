@@ -29,22 +29,22 @@ func GetexpensesByIdHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, exp)
 }
 
-// func GetCustomersHandler(c echo.Context) error {
-// 	custs := []Customer{}
+func GetExpenseHandler(c echo.Context) error {
+	exp := []expense{}
 
-// 	rows, err := db.Query("SELECT id, name, email, status FROM customers")
-// 	if err != nil {
-// 		return c.JSON(http.StatusInternalServerError, Err{Message: err.Error()})
-// 	}
-// 	for rows.Next() {
-// 		cst := Customer{}
-// 		err := rows.Scan(&cst.ID, &cst.Name, &cst.Email, &cst.Status)
-// 		if err != nil {
-// 			return c.JSON(http.StatusInternalServerError, Err{Message: err.Error()})
+	rows, err := db.Query("SELECT id, title, amount, note,tags FROM expenses")
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, Err{Message: err.Error()})
+	}
+	for rows.Next() {
+		e := expense{}
+		err := rows.Scan(&e.ID, &e.Title, &e.Amount, &e.NOTE, pq.Array(&e.Tags))
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, Err{Message: err.Error()})
 
-// 		}
-// 		custs = append(custs, cst)
-// 	}
+		}
+		exp = append(exp, e)
+	}
 
-// 	return c.JSON(http.StatusOK, custs)
-// }
+	return c.JSON(http.StatusOK, exp)
+}

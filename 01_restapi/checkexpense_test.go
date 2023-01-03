@@ -21,6 +21,17 @@ type expense struct {
 	Tags   []string `json:"tags"`
 }
 
+func TestGetAllExpense(t *testing.T) {
+	seedExpense(t)
+	var e []expense
+
+	res := request(http.MethodGet, uri("expenses"), nil)
+	err := res.Decode(&e)
+
+	assert.Nil(t, err)
+	assert.EqualValues(t, http.StatusOK, res.StatusCode)
+	assert.Greater(t, len(e), 0)
+}
 func TestCreateCustomer(t *testing.T) {
 	body := bytes.NewBufferString(`{
 		"title": "strawberry smoothie",
